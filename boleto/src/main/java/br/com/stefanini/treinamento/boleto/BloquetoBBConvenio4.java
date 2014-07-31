@@ -77,7 +77,16 @@ public class BloquetoBBConvenio4 extends BloquetoBBImpl implements BloquetoBB {
 			String contaCorrenteRelacionamentoSemDV, String tipoCarteira)
 			throws ManagerException {
 
-		//TODO: INICIALIZAR DADOS
+		this.codigoBanco = codigoBanco;
+		this.codigoMoeda = codigoMoeda;
+		this.dataVencimento = dataVencimento;
+		this.valor = valor;
+		this.numeroConvenioBanco = numeroConvenioBanco;
+		this.complementoNumeroConvenioBancoSemDV = complementoNumeroConvenioBancoSemDV;
+		this.numeroAgenciaRelacionamento = numeroAgenciaRelacionamento;
+		this.contaCorrenteRelacionamentoSemDV = contaCorrenteRelacionamentoSemDV;
+		this.tipoCarteira = tipoCarteira;
+		this.dataBase = dataBase;
 
 		validaDados();
 
@@ -99,12 +108,16 @@ public class BloquetoBBConvenio4 extends BloquetoBBImpl implements BloquetoBB {
 		init();
 
 		StringBuilder buffer = new StringBuilder();
+		
 		buffer.append(codigoBanco);
 		buffer.append(codigoMoeda);
-	    
-		//TODO: COMPLETAR
-		
-		
+		buffer.append(fatorVencimento);
+		buffer.append(getValorFormatado());
+		buffer.append(numeroConvenioBanco);
+		buffer.append(complementoNumeroConvenioBancoSemDV);
+		buffer.append(numeroAgenciaRelacionamento);
+		buffer.append(contaCorrenteRelacionamentoSemDV);
+		buffer.append(tipoCarteira);
 		
 		return buffer.toString();
 	}
@@ -116,7 +129,18 @@ public class BloquetoBBConvenio4 extends BloquetoBBImpl implements BloquetoBB {
 
 		StringBuilder buffer = new StringBuilder();
 		
-		//TODO: COMPLETAR
+		buffer.append(codigoBanco); // Posiçao 01 a 03 (3)
+		buffer.append(codigoMoeda); // Posiçao 04 a 04 (1)
+		buffer.append(digitoVerificadorCodigoBarras(getCodigoBarrasSemDigito())); // Posiçao 05 a 05 (1)
+		
+		buffer.append(fatorVencimento); // Posiçao 06 a 09 (4)
+		buffer.append(getValorFormatado()); // Posiçao 10 a 19 (10)
+		buffer.append(numeroConvenioBanco); // Posiçao 20 a 23 (4)
+		
+		buffer.append(complementoNumeroConvenioBancoSemDV); // Posiçao 24 a 30 (7)
+		buffer.append(numeroAgenciaRelacionamento); // Posiçao 31 a 34 (4)
+		buffer.append(contaCorrenteRelacionamentoSemDV); // Posiçao 35 a 42 (8)
+		buffer.append(tipoCarteira); // Posiçao 43 a 44 (2)
 		
 
 		return buffer.toString();

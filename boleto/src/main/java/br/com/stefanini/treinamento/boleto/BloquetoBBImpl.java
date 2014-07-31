@@ -31,7 +31,11 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 
 		long dias = diferencaEmDias(dataBase, dataVencimento);
 
-		// TODO: EXPLICAR O QUE ESTE MÉTODO ESTÁ FAZENDO
+		/*
+		 * Este método recebe o valor da diferença em dias
+		 * da data base com a data do vencimento e armazena 
+		 * na variável fator vencimento no formato adequado.
+		 */
 
 		fatorVencimento = String.format("%04d", dias);
 
@@ -52,8 +56,14 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 	 * @return
 	 */
 	protected String getValorFormatado() {
+		/*
+		 * O método retorna o valor armazenado em "value" no formato adequado,
+		 * sendo este formato apresentando apenas algarismos, sem ponto, 
+		 * com 10 casas obrigatoriamente, completadas com zeros não significativos
+		 * caso necessário, e com duas casas depois da vírgula, 
+		 * sendo arredondado para cima caso hajam mais casas. 
+		 */
 
-		// TODO: Explicar o que este método está fazendo
 		return String.format(
 				"%010d",
 				Long.valueOf(valor.setScale(2, RoundingMode.HALF_UP).toString()
@@ -175,9 +185,13 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 	 * @return
 	 */
 	protected static long diferencaEmDias(Date dataInicial, Date dataFinal) {
-
-		// TODO: Estude a Math e escreva aqui o que este método está fazendo
-
+		/*
+		 * Retorna um long arredondado para cima da diferença 
+		 * entre as duas datas do parâmetro, a final menos a inicial, 
+		 * e divide pela quantidade de milissegundos de um dia, 
+		 * retornando assim, a quantidade da diferença em dias 
+		 * entre as duas datas.
+		 */		
 		return Math
 				.round((dataFinal.getTime() - dataInicial.getTime()) / 86400000D);
 	}
