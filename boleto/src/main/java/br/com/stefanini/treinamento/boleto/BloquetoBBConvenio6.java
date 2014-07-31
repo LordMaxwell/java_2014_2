@@ -37,13 +37,13 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 
 		if (numeroConvenioBanco == null || numeroConvenioBanco.length() != 6) {
 			throw new ManagerException(
-					"número de convênio não informado ou o convênio informado é inválido. O convênio deve ter 4 posições");
+					"número de convênio não informado ou o convênio informado é inválido. O convênio deve ter 6 posições");
 		}
 
 		if (complementoNumeroConvenioBancoSemDV == null
 				&& complementoNumeroConvenioBancoSemDV.length() != 5) {
 			throw new ManagerException(
-					"Complemento do número do convênio não informado. O complemento deve ter 7 posições");
+					"Complemento do número do convênio não informado. O complemento deve ter 5 posições");
 		}
 
 		if (numeroAgenciaRelacionamento == null
@@ -61,6 +61,16 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 		if (tipoCarteira == null || tipoCarteira.length() != 2) {
 			throw new ManagerException(
 					"Tipo carteira não informado ou o valor é inválido");
+		}
+		
+		if("21".equals(tipoCarteira) && (complementoNumeroConvenioBancoSemDV.length()) != 17){
+			throw new ManagerException(
+					"Numero do Convenio do Banco + Complemento do numero do Convênio deve ter 17 posições para o tipo Convenio igual a 21");
+		}
+		
+		if(!"21".equals(tipoCarteira) && (complementoNumeroConvenioBancoSemDV.length() + numeroConvenioBanco.length()) != 11){
+			throw new ManagerException(
+					"Numero do Convenio do Banco + Complemento do numero do Convênio deve ter 11 posições para o tipo Convenio igual a diferente de 21");
 		}
 
 		if (dataBase == null) {
@@ -94,13 +104,11 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 
 	@Override
 	protected String getLDNumeroConvenio() {
-
-		return "";
+		
+		String convenio = String.format("%06d", Long.valueOf(numeroConvenioBanco));
+		return String.format("%s,%s", convenio.substring(0, 1), convenio.substring(1, 5));
 
 	}
-
-	// TODO: @sandro - refatorar os métodos getCodigoBarrasSemDigito() e
-	// getCodigoBarras()
 
 	@Override
 	protected String getCodigoBarrasSemDigito() {
@@ -115,8 +123,12 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 		buffer.append(getValorFormatado());
 		buffer.append(numeroConvenioBanco);
 		buffer.append(complementoNumeroConvenioBancoSemDV);
-		buffer.append(numeroAgenciaRelacionamento);
-		buffer.append(contaCorrenteRelacionamentoSemDV);
+		
+		if(!"21".equals(tipoCarteira)){
+			buffer.append(numeroAgenciaRelacionamento);
+			buffer.append(contaCorrenteRelacionamentoSemDV);
+		}
+		
 		buffer.append(tipoCarteira);
 
 		return buffer.toString();
@@ -131,16 +143,21 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 
 		buffer.append(codigoBanco); // Posiçao 01 a 03 (3)
 		buffer.append(codigoMoeda); // Posiçao 04 a 04 (1)
-		buffer.append(digitoVerificadorCodigoBarras(getCodigoBarrasSemDigito())); // Posiçao 05 a 05 (1)
+		buffer.append(digitoVerificadorCodigoBarras
+				(getCodigoBarrasSemDigito())); // Posiçao 05 a 05 (1)
 		
-		buffer.append(fatorVencimento);
-		buffer.append(getValorFormatado());
-		buffer.append(numeroConvenioBanco);
+		buffer.append(fatorVencimento); // Posiçao 06 a 09 (4)
+		buffer.append(getValorFormatado()); // Posiçao 10 a 19 (10)
+		buffer.append(numeroConvenioBanco); // Posiçao 20 a 25 (6)
 		
-		buffer.append(complementoNumeroConvenioBancoSemDV);
-		buffer.append(numeroAgenciaRelacionamento);
-		buffer.append(contaCorrenteRelacionamentoSemDV);
-		buffer.append(tipoCarteira);
+		buffer.append(complementoNumeroConvenioBancoSemDV); // Posiçao 26 a 30 (5)
+		
+		if(!"21".equals(tipoCarteira)){
+			buffer.append(numeroAgenciaRelacionamento); // Posiçao 31 a 34 (4)
+			buffer.append(contaCorrenteRelacionamentoSemDV); // Posiçao 35 a 42 (8)
+		}
+		
+		buffer.append(tipoCarteira); // Posiçao 43 a 44 (2)
 
 		return buffer.toString();
 	}
