@@ -130,8 +130,8 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 		StringBuilder buffer = new StringBuilder();
 
 		buffer.append(codigoBanco); // Posiçao 01 a 03 (3)
-		buffer.append(codigoMoeda); // Posiçao 04 a 04 (4)
-		buffer.append(digitoVerificadorCodigoBarras(getCodigoBarrasSemDigito()));
+		buffer.append(codigoMoeda); // Posiçao 04 a 04 (1)
+		buffer.append(digitoVerificadorCodigoBarras(getCodigoBarrasSemDigito())); // Posiçao 05 a 05 (1)
 		
 		buffer.append(fatorVencimento);
 		buffer.append(getValorFormatado());
