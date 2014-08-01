@@ -142,7 +142,7 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 						parcial = (parcial % 10)+((int)(parcial / 10));
 				}
 			}else{
-				parcial = Integer.parseInt(campo.substring(i));
+				parcial = Integer.parseInt(campo.substring(i-1 , i));
 			}
 			alt = !alt;
 			soma += parcial;
@@ -151,7 +151,7 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 			return 0;
 		}else{
 			return 10 - (soma % 10);
-		}		
+		}
 	}
 
 	/**
