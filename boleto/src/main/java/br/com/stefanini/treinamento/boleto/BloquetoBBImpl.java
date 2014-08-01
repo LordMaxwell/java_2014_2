@@ -132,9 +132,6 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 	 * @return
 	 */
 	protected int digitoVerificadorPorCampo(String campo) {
-		// TODO: COMPLETAR
-		// Receber campo 1, 2 ou 3 (1 com true, 2 e 3 com false).
-		// 
 		int soma = 0;
 		int parcial = 0;
 		boolean alt = true;
