@@ -131,10 +131,30 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 	 * @param campo
 	 * @return
 	 */
-	protected int digitoVerificadorPorCampo(String campo, boolean valor) {
+	protected int digitoVerificadorPorCampo(String campo) {
 		// TODO: COMPLETAR
-
-		return 0;
+		// Receber campo 1, 2 ou 3 (1 com true, 2 e 3 com false).
+		// 
+		int soma = 0;
+		int parcial = 0;
+		boolean alt = true;
+		for (int i = campo.length()-1; i >= 0; i--) {
+			if(alt){
+				parcial = Integer.parseInt(campo.substring(i)) * 2;
+				while(parcial >= 10){
+						parcial = (parcial % 10)+((int)(parcial / 10));
+				}
+			}else{
+				parcial = Integer.parseInt(campo.substring(i));
+			}
+			alt = !alt;
+			soma += parcial;
+		}
+		if((10 - (soma % 10)) == 10){
+			return 0;
+		}else{
+			return 10 - (soma % 10);
+		}		
 	}
 
 	/**
@@ -172,14 +192,14 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(ldCampo1());
-		buffer.append(digitoVerificadorPorCampo(ldCampo1(), true));
+		buffer.append(digitoVerificadorPorCampo(ldCampo1()));
 		buffer.append(" ");
 		
 		buffer.append(ldCampo2());
-		buffer.append(digitoVerificadorPorCampo(ldCampo2(), false));
+		buffer.append(digitoVerificadorPorCampo(ldCampo2()));
 		buffer.append(" ");
 		buffer.append(ldCampo3());
-		buffer.append(digitoVerificadorPorCampo(ldCampo3(), false));
+		buffer.append(digitoVerificadorPorCampo(ldCampo3()));
 		buffer.append(" ");
 		buffer.append(ldCampo4());
 		buffer.append(" ");
