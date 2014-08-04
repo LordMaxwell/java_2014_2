@@ -161,8 +161,27 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 	 * @return
 	 */
 	protected int digitoVerificadorCodigoBarras(String codigoBarras) {
-		// TODO: COMPLETAR
-		return 0;
+		int i = codigoBarras.length();
+		int k = 2;
+		int soma = 0;
+		
+		while(i != 0){
+		
+			if (k == 10){
+				k = 2;
+			}
+			soma += Integer.parseInt(codigoBarras.substring(i-1 , i)) * k;
+			k++;
+			i--;
+		}
+		soma = soma%11;
+		soma = 11 - soma;
+
+		if ((soma <= 0) || (soma == 10) || (soma == 11)){
+			return 1;
+		}else{
+			return soma;
+		}
 	}
 
 	/**
