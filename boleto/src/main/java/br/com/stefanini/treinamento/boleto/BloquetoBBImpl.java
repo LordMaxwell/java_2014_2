@@ -135,9 +135,12 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 		int soma = 0;
 		int parcial = 0;
 		boolean alt = true;
-		for (int i = campo.length()-1; i >= 0; i--) {
+		for (int i = campo.length(); i > 0; i--) {
+			if (campo.substring(i-1 , i).equals(".") ){
+				i--;
+			}
 			if(alt){
-				parcial = Integer.parseInt(campo.substring(i)) * 2;
+				parcial = Integer.parseInt(campo.substring(i-1 , i)) * 2;
 				while(parcial >= 10){
 						parcial = (parcial % 10)+((int)(parcial / 10));
 				}
